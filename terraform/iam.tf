@@ -75,11 +75,6 @@ data "aws_iam_policy_document" "DNS_lambda_policy" {
     }
     actions = ["sts:AssumeRole"]
   }
-  statement {
-    Effect = "Allow"
-    actions = ["route53*", "ec2:DescribeInstance*"]
-    resources = [*]
-  }
 }
 
 resource "aws_iam_role" "DNS_lambda_role" {
