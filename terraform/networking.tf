@@ -37,7 +37,7 @@ resource "aws_subnet" "factorio_c" {
 resource "aws_internet_gateway" "factorio_igw" {
   vpc_id = aws_vpc.factorio_vpc.id
 
-  tags{
+  tags = {
     Name = "facotorio_igw"
   }
 }
