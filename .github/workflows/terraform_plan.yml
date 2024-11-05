@@ -35,14 +35,14 @@ jobs:
         continue-on-error: true
         working-directory: ./terraform
 
-      - name: Terraform Validate
-        id: tf_validate
-        run: terraform validate
-        working-directory: ./terraform
-
       - name: Terraform Init
         id: tf_init
         run: terraform init
+        working-directory: ./terraform
+
+      - name: Terraform Validate
+        id: tf_validate
+        run: terraform validate
         working-directory: ./terraform
 
       - name: Terraform Plan
