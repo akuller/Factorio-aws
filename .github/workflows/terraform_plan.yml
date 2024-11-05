@@ -39,6 +39,10 @@ jobs:
         id: tf_init
         run: terraform init
         working-directory: ./terraform
+        env:
+          TF_VAR_aws_backend_key: ${{vars.AWS_BACKEND_KEY}}
+          TF_VAR_aws_backend_bucket: ${{ vars.AWS_BUCKET_BACKEND}}
+          TF_VAR_aws_region: ${{vars.AWS_REGION}}
 
       - name: Terraform Validate
         id: tf_validate
