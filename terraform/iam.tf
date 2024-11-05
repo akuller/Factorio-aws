@@ -7,11 +7,6 @@ data "aws_iam_policy_document" "instance_assume_role_policy"{
     }
     actions = ["sts:AssumeRole"]
   }
-  statement {
-    Effect = "Allow"
-    actions = ["route53:*"]
-    resources = [*]
-  }
 }
 
 resource "aws_iam_role" "instance_role" {
