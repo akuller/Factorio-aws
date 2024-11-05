@@ -51,9 +51,9 @@ jobs:
         run: |
           terraform plan
         env:
-          TF_VAR_aws_backend_key: ${{AWS_BACKEND_KEY}}
-          TF_VAR_aws_backend_bucket: ${{AWS_BUCKET_BACKEND}}
-          TF_VAR_aws_region: ${{AWS_REGION}}
-          TF_VAR_main_uri: ${{MAIN_URI}}
-          TF_VAR_factorio_uri: ${{FACTORIO_URI}}
-          TF_VAR_ : ${{secrets.MY_IP}}
+          TF_VAR_aws_backend_key: ${{vars.AWS_BACKEND_KEY}}
+          TF_VAR_aws_backend_bucket: ${{ vars.AWS_BUCKET_BACKEND}}
+          TF_VAR_aws_region: ${{vars.AWS_REGION}}
+          TF_VAR_main_uri: ${{ vars.MAIN_URI}}
+          TF_VAR_factorio_uri: ${{vars.FACTORIO_URI}}
+          TF_VAR_ : ${{vars.secrets.MY_IP}}
