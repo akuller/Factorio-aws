@@ -37,7 +37,11 @@ jobs:
 
       - name: Terraform Init
         id: tf_init
-        run: terraform init
+        run: | 
+          terraform init \
+            -backend-config="aws_backend_key=$TF_VAR_aws_backend_key" \
+            -backend-config="aws_backend_bucket=$TF_VAR_aws_backend_bucket" \
+            -backend-config="aws_region=$TF_VAR_aws_region"
         working-directory: ./terraform
         env:
           TF_VAR_aws_backend_key: ${{vars.AWS_BACKEND_KEY}}
