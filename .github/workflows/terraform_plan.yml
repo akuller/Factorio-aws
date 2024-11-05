@@ -1,0 +1,59 @@
+name: Terraform Plan
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      - name: Change Working directory
+        run: cd terraform
+
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secret.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ variable.AWS_REGION }}
+
+      - name: Configure Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: Terraform fmt
+        id: tf_fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Validate
+        id: tf_validate
+        run: terraform validate
+
+      - name: Terraform Init
+        id: tf_init
+        run: terraform init
+
+      - name: Terraform Plan
+        id: tf_plan
+        run: |
+          terraform plan
+        env:
+          TF_VAR_aws_backend_key: ${{AWS_BACKEND_KEY}}
+          TF_VAR_aws_backend_bucket: ${{AWS_BUCKET_BACKEND}}
+          TF_VAR_aws_region: ${{AWS_REGION}}
+          TF_VAR_main_uri: ${{MAIN_URI}}
+          TF_VAR_factorio_uri: ${{FACTORIO_URI}}
+          TF_VAR_ : ${{secrets.MY_IP}}
