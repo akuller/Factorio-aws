@@ -13,12 +13,12 @@ data "aws_ami" "amazon_linux" {
 resource "aws_launch_template" "factorio_launch_template" {
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = var.aws_instance_type
-  name_prefix = "factorio-"
+  name_prefix   = "factorio-"
 }
 
 
 resource "aws_autoscaling_group" "factorio_ag" {
-  name = "factorio_group"
+  name     = "factorio_group"
   max_size = var.aws_autoscaling_max
   min_size = var.aws_autoscaling_min
   launch_template {
@@ -35,16 +35,16 @@ resource "aws_ecs_cluster" "factorio_cluster" {
 }
 
 resource "aws_ecs_service" "factorio_ecs_service" {
-  name = "factorio-ecs-service"
-  cluster = aws_ecs_cluster.factorio_cluster.arn
-  desired_count = 1
-  iam_role = aws_iam_role.instance_role.arn
+  name            = "factorio-ecs-service"
+  cluster         = aws_ecs_cluster.factorio_cluster.arn
+  desired_count   = 1
+  iam_role        = aws_iam_role.instance_role.arn
   task_definition = aws_ecs_task_definition.factorio_ecs_task_definition.arn
 }
 
 
 resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
-  family = "Factorio-ECS-Task"
+  family                = "Factorio-ECS-Task"
   container_definitions = <<TASK_DEFINITION
   [
     {
@@ -81,14 +81,14 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   volume {
     name = "factorio"
     efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.factorio_efs.arn
-      transit_encryption      = "ENABLED"
+      file_system_id     = aws_efs_file_system.factorio_efs.arn
+      transit_encryption = "ENABLED"
     }
   }
 }
 
-data "archive_file" "dns_lambda"{
-  type = "zip"
+data "archive_file" "dns_lambda" {
+  type        = "zip"
   source_file = "../scripts/dns_lambda.py"
   output_path = "lambda_dns_function_payload.zip"
 }
@@ -103,11 +103,11 @@ resource "aws_lambda_function" "set_dns_record_lambda" {
       RecordName   = var.factorio_uri
     }
   }
-  filename = data.archive_file.dns_lambda.output_path
+  filename         = data.archive_file.dns_lambda.output_path
   source_code_hash = data.archive_file.dns_lambda.output_base64sha256
-  description = "Sets Route 53 DNS Record for Factorio"
-  handler = "index.handler"
-  memory_size = 128
-  runtime = "python3.12"
-  timeout = 20
+  description      = "Sets Route 53 DNS Record for Factorio"
+  handler          = "index.handler"
+  memory_size      = 128
+  runtime          = "python3.12"
+  timeout          = 20
 }
