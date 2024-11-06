@@ -48,7 +48,7 @@ resource "aws_ecs_service" "factorio_ecs_service" {
 
 resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   family = "Factorio ECS Task"
-  container_definitions = jsondecode(
+  container_definitions = jsondecode([
     {
       name   = "factorio"
       image  = "${var.factorio_docker_image}:${var.factorio_image_tag}"
@@ -81,11 +81,11 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
         ReadOnly = false
       }
     }
-  )
+  ])
 
   volume {
     name = "factorio"
-    efs_volume_configuration = {
+    efs_volume_configuration {
       file_system_id          = aws_efs_file_system.factorio_efs.arn
       transit_encryption      = "ENABLED"
     }
