@@ -46,38 +46,40 @@ resource "aws_ecs_service" "factorio_ecs_service" {
 
 resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   family = "Factorio ECS Task"
-  container_definitions = {
-    name = "factorio"
-    image     = "${var.factorio_docker_image}:${var.factorio_image_tag}"
-    memory    = 1024
-    portMappings = [
+  container_definitions = jsondoc([
+    {
+      name   = "factorio"
+      image  = "${var.factorio_docker_image}:${var.factorio_image_tag}"
+      memory = 1024
+      portMappings = [
         {
           containerPort = 34197
-          hostPort      = 34197
+          hostPort = 34197
           protocol = "udp"
         },
         {
           containerPort = 27015
-          hostPort      = 27015
+          hostPort = 27015
           protocol = "tcp"
         }
       ]
-    Environment = [
-      {
-        name = "Update MODS on Start"
-        value = var.update_mods_on_start
-      },
-      {
-        name = "DLC Space Age"
-        value = var.dlc_space_age
+      Environment = [
+        {
+          name = "Update MODS on Start"
+          value = var.update_mods_on_start
+        },
+        {
+          name = "DLC Space Age"
+          value = var.dlc_space_age
+        }
+      ]
+      mount_points = {
+        ContainerPath = "/factorio"
+        SourceVolume = "factorio"
+        ReadOnly = false
       }
-    ]
-    mount_points = {
-      ContainerPath = "/factorio"
-      SourceVolume = "factorio"
-      ReadOnly = false
     }
-  }
+  ])
 
   volume = {
     name = "factorio"
@@ -87,7 +89,6 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
     }
   }
 }
-
 
 data "archive_file" "dns_lambda"{
   type = "zip"
