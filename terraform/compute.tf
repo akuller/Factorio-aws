@@ -44,9 +44,10 @@ resource "aws_ecs_service" "factorio_ecs_service" {
   task_definition = aws_ecs_task_definition.factorio_ecs_task_definition.arn
 }
 
+
 resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   family = "Factorio ECS Task"
-  container_definitions = jsondoc([
+  container_definitions = jsondecode([
     {
       name   = "factorio"
       image  = "${var.factorio_docker_image}:${var.factorio_image_tag}"
