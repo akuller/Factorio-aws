@@ -45,38 +45,38 @@ resource "aws_ecs_service" "factorio_ecs_service" {
 
 resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   family = "Factorio-ECS-Task"
-    container_definitions = <<TASK_DEFINITION
-[
-  {
-    "image": "${var.factorio_docker_image}:${var.factorio_image_tag}",
-    "memory": 1024,
-    "name": "factorio"
-    "portMappings": [
-      {
-        "containerPort": 34197,
-        "hostPort": 34197,
-        "protocol": "udp"
-      },
-      {
-        "containerPort": 27015,
-        "hostPort": 27015,
-        "protocol": "tcp"
-      }
-    ]
-    "mount_points": [
-      {
-        "ContainerPath": "/factorio",
-        "ReadOnly": false,
-        "SourceVolume": "factorio"
-      }
-    ]
-    "envrionment" = [
-      {"name": "Update MODS on Start", "value": "${var.update_mods_on_start}"" },
-      {"name": "DLC Space Age", "value": "${var.dlc_space_age}"" }
-    ]
-  }
-]
-TASK_DEFINITION
+  container_definitions = <<TASK_DEFINITION
+  [
+    {
+      "image": "${var.factorio_docker_image}:${var.factorio_image_tag}",
+      "memory": 1024,
+      "name": "factorio"
+      "portMappings": [
+        {
+          "containerPort": 34197,
+          "hostPort": 34197,
+          "protocol": "udp"
+        },
+        {
+          "containerPort": 27015,
+          "hostPort": 27015,
+          "protocol": "tcp"
+        }
+      ]
+      "mount_points": [
+        {
+          "ContainerPath": "/factorio",
+          "ReadOnly": false,
+          "SourceVolume": "factorio"
+        }
+      ]
+      "envrionment" = [
+        {"name": "Update MODS on Start", "value": "${var.update_mods_on_start}" },
+        {"name": "DLC Space Age", "value": "${var.dlc_space_age}" }
+      ]
+    }
+  ]
+  TASK_DEFINITION
 
   volume {
     name = "factorio"
