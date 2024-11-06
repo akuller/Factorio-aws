@@ -101,14 +101,14 @@ resource "aws_iam_role" "DNS_lambda_role" {
 }
 
 resource "aws_security_group" "factorio-efs-sg" {
+  depends_on = [aws_security_group.instance_sg]
   name        = "factorio-efs-sg"
   description = "factorio efs security group"
   ingress {
     from_port       = 2049
     to_port         = 2049
     protocol        = "tcp"
-    security_groups = [aws_security_group.instance_sg.arn]
+    security_groups = [aws_security_group.instance_sg.id]
   }
   vpc_id = aws_vpc.factorio_vpc.id
-  #security_groups = aws_security_group.instance_sg.arn
 }
