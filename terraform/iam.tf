@@ -31,7 +31,7 @@ resource "aws_iam_role" "instance_role" {
 
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "instance_profile"
-  role = aws_iam_role.instance_role.arn
+  role = aws_iam_role.instance_role.name
 }
 
 resource "aws_security_group" "instance_sg" {
