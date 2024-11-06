@@ -9,8 +9,8 @@ data "aws_iam_policy_document" "instance_assume_role_policy"{
   }
   statement {
     effect = "Allow"
-    actions = "route53:*"
-    resources = "*"
+    actions = ["route53:*"]
+    resources = ["*"]
   }
 }
 
@@ -67,13 +67,13 @@ data "aws_iam_policy_document" "DNS_lambda_policy" {
   }
   statement {
     effect = "Allow"
-    actions = "route53:*"
-    resources = "*"
+    actions = ["route53:*"]
+    resources = ["*"]
   }
   statement {
     effect = "Allow"
-    actions = "ec2:DescribeInstance*"
-    resources = "*"
+    actions = ["ec2:DescribeInstance*"]
+    resources = ["*"]
   }
 }
 
