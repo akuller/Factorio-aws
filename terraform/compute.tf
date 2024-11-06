@@ -47,7 +47,7 @@ resource "aws_ecs_service" "factorio_ecs_service" {
 
 
 resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
-  family = "Factorio ECS Task"
+  family = "Factorio-ECS-Task"
     container_definitions = <<TASK_DEFINITION
 [
   {
