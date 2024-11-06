@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "instance_s3_policy" {
 }
 
 resource "aws_iam_role" "instance_role" {
-  name               = "instance-role"
+  name               = "instance-role-2"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
@@ -27,6 +27,7 @@ resource "aws_iam_role" "instance_role" {
     name   = "s3-policy"
     policy = data.aws_iam_policy_document.instance_s3_policy.json
   }
+  force_detach_policies = true
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
