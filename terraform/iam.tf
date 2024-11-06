@@ -7,10 +7,13 @@ data "aws_iam_policy_document" "instance_assume_role_policy" {
     }
     actions = ["sts:AssumeRole"]
   }
-  statement {
-    effect    = "Allow"
-    actions   = ["route53:*"]
-    resources = ["*"]
+}
+
+data "aws_iam_policy_document" "instance_s3_policy" {
+    statement {
+      effect    = "Allow"
+      actions   = ["route53:*"]
+      resources = ["*"]
   }
 }
 
@@ -18,9 +21,14 @@ resource "aws_iam_role" "instance_role" {
   name               = "instance_role"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
   ]
+  inline_policy {
+    name = "s3"
+    policy = data.aws_iam_policy_document.instance_s3_policy.json
+  }
 }
+
 
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "instance_profile"
