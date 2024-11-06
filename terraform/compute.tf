@@ -1,17 +1,14 @@
-data "aws_ami" "amazon_linux"{
-  most_recent = true
-  owners = ["amazon"]
-  name_regex = "amzn2-ami*"
+data "aws_ami" "amazon_linux" {
   filter {
-    name = "architecture"
-    values = ["amd64"]
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
-    filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
+  filter {
+    name   = "owner-id"
+    values = ["amazon"]
   }
+  most_recent = true
 }
-
 
 resource "aws_launch_template" "factorio_launch_template" {
   image_id      = data.aws_ami.amazon_linux.id
