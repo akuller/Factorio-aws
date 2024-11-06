@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "instance_s3_policy" {
 }
 
 resource "aws_iam_role" "instance_role" {
-  name               = "instance-role-2"
+  name               = "instance_role"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "DNS_lambda_policy" {
 }
 
 resource "aws_iam_role" "DNS_lambda_role" {
-  name                = "DNS-Lambda-Policy"
+  name                = "DNS_Lambda_Policy"
   description         = "DNS Lambda Policy"
   assume_role_policy  = data.aws_iam_policy_document.DNS_lambda_policy_assume_role.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
