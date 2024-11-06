@@ -70,7 +70,7 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
           "SourceVolume": "factorio"
         }
       ],
-      "envrionment" = [
+      "envrionment" : [
         {"name": "Update MODS on Start", "value": "${var.update_mods_on_start}" },
         {"name": "DLC Space Age", "value": "${var.dlc_space_age}" }
       ]
