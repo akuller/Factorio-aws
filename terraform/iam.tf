@@ -30,12 +30,14 @@ resource "aws_iam_instance_profile" "instance_profile" {
 resource "aws_security_group" "instance_sg" {
   name = "factorio-instance-sg"
   vpc_id = aws_vpc.factorio_vpc.id
+  /*
   ingress {
     from_port = 22
     to_port = 22
     protocol = "tcp"
     cidr_blocks = [var.myip]
   }
+   */
   ingress {
     from_port = 34197
     to_port = 34197
