@@ -99,7 +99,7 @@ resource "aws_lambda_function" "set_dns_record_lambda" {
   role          = aws_iam_role.DNS_lambda_role.arn
   environment {
     variables = {
-      HostedZoneID = aws_route53_zone.main.id
+      HostedZoneID = var.hosted_zone_id
       RecordName   = var.factorio_uri
     }
   }
