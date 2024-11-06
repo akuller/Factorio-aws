@@ -1,12 +1,8 @@
 resource "aws_efs_file_system" "factorio_efs" {
-  lifecycle_policy = [
-    {
-      TransitionToIA = "AFTER_7_DAYS"
-    },
-    {
-      TransitionToPrimaryStorageClass = "AFTER_1_ACCESS"
-    }
-  ]
+  lifecycle_policy = {
+    transition_to_ia = "AFTER_7_DAYS"
+    transition_to_primary_storage_class = "AFTER_1_ACCESS"
+  }
 }
 
 resource "aws_efs_mount_target" "mount_a" {

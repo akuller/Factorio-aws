@@ -79,7 +79,7 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
     }
   }
 
-  volume = [
+  volume =
     {
       name = "factorio"
       efs_volume_configuration = {
@@ -87,7 +87,6 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
         transit_encryption      = "ENABLED"
       }
     }
-  ]
 }
 
 
