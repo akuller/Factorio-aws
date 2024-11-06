@@ -19,13 +19,12 @@ data "aws_iam_policy_document" "instance_s3_policy" {
 
 resource "aws_iam_role" "instance_role" {
   name               = "instance-role"
-  path               = "/"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
   ]
   inline_policy {
-    name = "s3"
+    name = "s3-policy"
     policy = data.aws_iam_policy_document.instance_s3_policy.json
   }
 }
@@ -66,15 +65,18 @@ resource "aws_security_group" "instance_sg" {
   }
 }
 
-data "aws_iam_policy_document" "DNS_lambda_policy" {
+data "aws_iam_policy_document" "DNS_lambda_policy_assume_role" {
   statement {
     effect = "Allow"
     principals {
-      type        = "Service"
+      type = "Service"
       identifiers = ["lambda.amazonaws.com"]
     }
     actions = ["sts:AssumeRole"]
   }
+}
+
+data "aws_iam_policy_document" "DNS_lambda_policy" {
   statement {
     effect    = "Allow"
     actions   = ["route53:*"]
@@ -90,8 +92,12 @@ data "aws_iam_policy_document" "DNS_lambda_policy" {
 resource "aws_iam_role" "DNS_lambda_role" {
   name                = "DNS-Lambda-Policy"
   description         = "DNS Lambda Policy"
-  assume_role_policy  = data.aws_iam_policy_document.DNS_lambda_policy.json
+  assume_role_policy  = data.aws_iam_policy_document.DNS_lambda_policy_assume_role.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
+  inline_policy {
+    name = "lambda-policy"
+    policy = data.aws_iam_policy_document.DNS_lambda_policy.json
+  }
 }
 
 resource "aws_security_group" "factorio-efs-sg" {
