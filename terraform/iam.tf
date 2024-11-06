@@ -1,6 +1,6 @@
 data "aws_iam_policy_document" "instance_assume_role_policy"{
   statement {
-    Effec = "Allow"
+    effect = "Allow"
     principals {
       identifiers = ["ec2.amazonaws.com"]
       type = "Service"
@@ -38,7 +38,7 @@ resource "aws_iam_instance_profile" "instance_profile" {
 }
 
 resource "aws_security_group" "instance_sg" {
-  name = factorio-ec2
+  name = "factorio-instance-sg"
   vpc_id = aws_vpc.factorio_vpc.id
   ingress {
     from_port = 22
@@ -68,7 +68,7 @@ resource "aws_security_group" "instance_sg" {
 
 data "aws_iam_policy_document" "DNS_lambda_policy" {
   statement {
-    Effect = "Allow"
+    effect = "Allow"
     principals {
       type = "Service"
       identifiers = ["lambda.amazonaws.com"]

@@ -58,13 +58,13 @@ variable "factorio_image_tag" {
 
 variable dlc_space_age {
   description = "Refer to https://hub.docker.com/r/factoriotools/factorio/ for further information about Space Age. Enables or disable Space Age mods. Everybody that wants to use these servers will have to have mods enabled or disabled respectively for the Space Age expansion pack. Irrelevant if docker image for factorio is set to be prior to v2."
-  type = string
+  type = bool
   default = false
 }
 
 variable update_mods_on_start {
   description = "Refer to https://hub.docker.com/r/factoriotools/factorio/ for further configuration details."
-  type = string
+  type = bool
   default = false
 }
 
