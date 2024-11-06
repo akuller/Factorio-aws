@@ -15,20 +15,19 @@ resource "aws_iam_role" "instance_role" {
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
   ]
-  force_detach_policies =
-    {
-      PolicyName = "root"
-      PolicyDocument = {
-        Version = "2012-10-17"
-        Statement = [
-          {
-            Effect = "Allow"
-            Action = "route53:*"
-            Resource = "*"
-          }
-        ]
-      }
+  force_detach_policies = {
+    PolicyName = "root"
+    PolicyDocument = {
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow"
+          Action = "route53:*"
+          Resource = "*"
+        }
+      ]
     }
+  }
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
@@ -81,25 +80,24 @@ resource "aws_iam_role" "DNS_lambda_role" {
   description = "DNS Lambda Policy"
   assume_role_policy = data.aws_iam_policy_document.DNS_lambda_policy
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
-  force_detach_policies =
-    {
-      PolicyName = "root"
-      PolicyDocument = {
-        Version = "2012-10-17"
-        Statement = [
-          {
-            Effect = "Allow"
-            Action = "route53:*"
-            Resource = "*"
-          },
-          {
-            Effect = "Allow"
-            Action = "ec2:DescribeInstance*"
-            Resource = "*"
-          }
-        ]
-      }
+  force_detach_policies = {
+    PolicyName = "root"
+    PolicyDocument = {
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow"
+          Action = "route53:*"
+          Resource = "*"
+        },
+        {
+          Effect = "Allow"
+          Action = "ec2:DescribeInstance*"
+          Resource = "*"
+        }
+      ]
     }
+  }
 }
 
 resource "aws_security_group" "factorio-efs-sg" {

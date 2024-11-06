@@ -79,14 +79,13 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
     }
   }
 
-  volume =
-    {
-      name = "factorio"
-      efs_volume_configuration = {
-        file_system_id          = aws_efs_file_system.factorio_efs.arn
-        transit_encryption      = "ENABLED"
-      }
+  volume = {
+    name = "factorio"
+    efs_volume_configuration = {
+      file_system_id          = aws_efs_file_system.factorio_efs.arn
+      transit_encryption      = "ENABLED"
     }
+  }
 }
 
 
