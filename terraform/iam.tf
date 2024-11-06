@@ -18,7 +18,8 @@ data "aws_iam_policy_document" "instance_s3_policy" {
 }
 
 resource "aws_iam_role" "instance_role" {
-  name               = "instance_role"
+  name               = "instance-role"
+  path               = "/"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
@@ -28,7 +29,6 @@ resource "aws_iam_role" "instance_role" {
     policy = data.aws_iam_policy_document.instance_s3_policy.json
   }
 }
-
 
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "instance_profile"
