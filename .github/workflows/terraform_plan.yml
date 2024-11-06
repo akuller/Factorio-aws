@@ -63,5 +63,5 @@ jobs:
           TF_VAR_aws_region: ${{vars.AWS_REGION}}
           TF_VAR_main_uri: ${{ vars.MAIN_URI}}
           TF_VAR_factorio_uri: ${{vars.FACTORIO_URI}}
-          TF_VAR_myip : ${{vars.secrets.MY_IP}}
+          TF_VAR_myip : ${{secrets.MY_IP}}
         working-directory: ./terraform
