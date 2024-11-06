@@ -93,6 +93,7 @@ resource "aws_security_group" "factorio-efs-sg" {
     from_port = 2049
     to_port = 2049
     protocol = "tcp"
+    security_groups = [aws_security_group.instance_sg.arn]
   }
   vpc_id = aws_vpc.factorio_vpc.id
   #security_groups = aws_security_group.instance_sg.arn
