@@ -1,13 +1,14 @@
 data "aws_ami" "amazon_linux"{
   most_recent = true
   owners = ["amazon"]
+  name_regex = "Amazon Linux 2*"
   filter {
     name = "architecture"
     values = ["amd64"]
   }
-  filter {
-    name = ""
-    values = []
+    filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
 }
 
@@ -23,7 +24,7 @@ resource "aws_autoscaling_group" "factorio_ag" {
   name = "factorio_group"
   max_size = var.aws_autoscaling_max
   min_size = var.aws_autoscaling_min
-  launch_template = {
+  launch_template {
     id      = aws_launch_template.factorio_launch_template.id
     version = "$Latest"
   }
@@ -47,7 +48,7 @@ resource "aws_ecs_service" "factorio_ecs_service" {
 
 resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   family = "Factorio ECS Task"
-  container_definitions = jsondecode([
+  container_definitions = jsondecode(
     {
       name   = "factorio"
       image  = "${var.factorio_docker_image}:${var.factorio_image_tag}"
@@ -80,9 +81,9 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
         ReadOnly = false
       }
     }
-  ])
+  )
 
-  volume = {
+  volume {
     name = "factorio"
     efs_volume_configuration = {
       file_system_id          = aws_efs_file_system.factorio_efs.arn

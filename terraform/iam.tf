@@ -103,7 +103,7 @@ resource "aws_iam_role" "DNS_lambda_role" {
 resource "aws_security_group" "factorio-efs-sg" {
   name = "factorio-efs-sg"
   description = "factorio efs security group"
-  ingress = {
+  ingress {
     from_port = 2049
     to_port = 2049
     protocol = "tcp"
