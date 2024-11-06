@@ -8,9 +8,9 @@ data "aws_iam_policy_document" "instance_assume_role_policy"{
     actions = ["sts:AssumeRole"]
   }
   statement {
-    Effect = "Allow"
-    Action = "route53:*"
-    Resource = "*"
+    effect = "Allow"
+    actions = "route53:*"
+    resources = "*"
   }
 }
 
@@ -65,16 +65,15 @@ data "aws_iam_policy_document" "DNS_lambda_policy" {
     }
     actions = ["sts:AssumeRole"]
   }
-
-  Statement {
-    Effect = "Allow"
-    Action = "route53:*"
-    Resource = "*"
+  statement {
+    effect = "Allow"
+    actions = "route53:*"
+    resources = "*"
   }
   statement {
-    Effect = "Allow"
-    Action = "ec2:DescribeInstance*"
-    Resource = "*"
+    effect = "Allow"
+    actions = "ec2:DescribeInstance*"
+    resources = "*"
   }
 }
 
