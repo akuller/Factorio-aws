@@ -78,7 +78,7 @@ data "aws_iam_policy_document" "DNS_lambda_policy" {
 }
 
 resource "aws_iam_role" "DNS_lambda_role" {
-  name = "DNS Lambda Policy"
+  name = "DNS-Lambda-Policy"
   description = "DNS Lambda Policy"
   assume_role_policy = data.aws_iam_policy_document.DNS_lambda_policy
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
