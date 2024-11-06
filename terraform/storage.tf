@@ -1,6 +1,8 @@
 resource "aws_efs_file_system" "factorio_efs" {
   lifecycle_policy {
-    transition_to_ia                    = "AFTER_7_DAYS"
+    transition_to_ia = "AFTER_7_DAYS"
+  }
+  lifecycle_policy {
     transition_to_primary_storage_class = "AFTER_1_ACCESS"
   }
 }

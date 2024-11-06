@@ -10,10 +10,10 @@ data "aws_iam_policy_document" "instance_assume_role_policy" {
 }
 
 data "aws_iam_policy_document" "instance_s3_policy" {
-    statement {
-      effect    = "Allow"
-      actions   = ["route53:*"]
-      resources = ["*"]
+  statement {
+    effect    = "Allow"
+    actions   = ["route53:*"]
+    resources = ["*"]
   }
 }
 
@@ -24,7 +24,7 @@ resource "aws_iam_role" "instance_role" {
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
   ]
   inline_policy {
-    name = "s3-policy"
+    name   = "s3-policy"
     policy = data.aws_iam_policy_document.instance_s3_policy.json
   }
 }
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "DNS_lambda_policy_assume_role" {
   statement {
     effect = "Allow"
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["lambda.amazonaws.com"]
     }
     actions = ["sts:AssumeRole"]
@@ -95,7 +95,7 @@ resource "aws_iam_role" "DNS_lambda_role" {
   assume_role_policy  = data.aws_iam_policy_document.DNS_lambda_policy_assume_role.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
   inline_policy {
-    name = "lambda-policy"
+    name   = "lambda-policy"
     policy = data.aws_iam_policy_document.DNS_lambda_policy.json
   }
 }
