@@ -71,6 +71,7 @@ variable "update_mods_on_start" {
 variable "hosted_zone_id" {
   description = "(Optional - An empty value disables this feature) If you have a hosted zone in Route 53 and wish to set a DNS record whenever your Factorio instance starts, supply the hosted zone ID here."
   type        = string
+  default     = "Z6FZ21BWYDAAS"
 }
 
 #variable record_name {
