@@ -19,8 +19,8 @@ resource "aws_efs_mount_target" "mount_b" {
   subnet_id       = aws_subnet.factorio_b.id
 }
 
-resource "aws_efs_mount_target" "mount_c" {
-  file_system_id  = aws_efs_file_system.factorio_efs.id
-  security_groups = [aws_security_group.factorio-efs-sg.arn]
-  subnet_id       = aws_subnet.factorio_c.id
-}
+# resource "aws_efs_mount_target" "mount_c" {
+#   file_system_id  = aws_efs_file_system.factorio_efs.id
+#   security_groups = [aws_security_group.factorio-efs-sg.arn]
+#   subnet_id       = aws_subnet.factorio_c.id
+# }

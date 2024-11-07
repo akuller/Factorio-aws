@@ -25,8 +25,8 @@ resource "aws_autoscaling_group" "factorio_ag" {
     id      = aws_launch_template.factorio_launch_template.id
     version = "$Latest"
   }
-  vpc_zone_identifier = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id, aws_subnet.factorio_c.id]
-
+  #vpc_zone_identifier = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id, aws_subnet.factorio_c.id]
+  vpc_zone_identifier = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id]
 }
 
 
