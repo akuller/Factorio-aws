@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "instance_s3_policy" {
 }
 
 resource "aws_iam_role" "instance_role" {
-  name               = "instance_role"
+  name               = "instance_role_factorio"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
@@ -31,7 +31,7 @@ resource "aws_iam_role" "instance_role" {
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
-  name = "instance_profile"
+  name = "instance_profile_factorio"
   role = aws_iam_role.instance_role.name
 }
 
