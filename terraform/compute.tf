@@ -65,14 +65,14 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
           "protocol": "tcp"
         }
       ],
-      "mount_points": [
+      "mountPoints": [
         {
           "ContainerPath": "/factorio",
           "ReadOnly": false,
           "SourceVolume": "factorio"
         }
       ],
-      "envrionment" : [
+      "environment" : [
         {"name": "Update MODS on Start", "value": "${var.update_mods_on_start}" },
         {"name": "DLC Space Age", "value": "${var.dlc_space_age}" }
       ]
