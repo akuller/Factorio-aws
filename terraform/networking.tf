@@ -46,17 +46,17 @@ resource "aws_route_table" "factorio_route_table" {
   vpc_id = aws_vpc.factorio_vpc.id
 }
 
-resource "aws_route" "route_a" {
-  route_table_id         = aws_route_table.factorio_route_table.id
-  gateway_id             = aws_internet_gateway.factorio_igw.id
-  destination_cidr_block = aws_subnet.factorio_a.cidr_block
-}
-
-resource "aws_route" "route_b" {
-  route_table_id         = aws_route_table.factorio_route_table.id
-  gateway_id             = aws_internet_gateway.factorio_igw.id
-  destination_cidr_block = aws_subnet.factorio_b.cidr_block
-}
+# resource "aws_route" "route_a" {
+#   route_table_id         = aws_route_table.factorio_route_table.id
+#   gateway_id             = aws_internet_gateway.factorio_igw.id
+#   destination_cidr_block = aws_subnet.factorio_a.cidr_block
+# }
+#
+# resource "aws_route" "route_b" {
+#   route_table_id         = aws_route_table.factorio_route_table.id
+#   gateway_id             = aws_internet_gateway.factorio_igw.id
+#   destination_cidr_block = aws_subnet.factorio_b.cidr_block
+# }
 
 # resource "aws_route" "route_c" {
 #   route_table_id = aws_route_table.factorio_route_table.id
