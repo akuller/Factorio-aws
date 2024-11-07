@@ -43,18 +43,18 @@ output "sbunet_b_zone" {
   value = aws_subnet.factorio_b.availability_zone
 }
 
-output "sbunet_c_arn" {
-  value = aws_subnet.factorio_c.arn
-}
-
-output "sbunet_c_cidr" {
-  value = aws_subnet.factorio_c.cidr_block
-}
-
-output "sbunet_c_id" {
-  value = aws_subnet.factorio_c.id
-}
-
-output "sbunet_c_zone" {
-  value = aws_subnet.factorio_c.availability_zone
-}
+# output "sbunet_c_arn" {
+#   value = aws_subnet.factorio_c.arn
+# }
+#
+# output "sbunet_c_cidr" {
+#   value = aws_subnet.factorio_c.cidr_block
+# }
+#
+# output "sbunet_c_id" {
+#   value = aws_subnet.factorio_c.id
+# }
+#
+# output "sbunet_c_zone" {
+#   value = aws_subnet.factorio_c.availability_zone
+# }
