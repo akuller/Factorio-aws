@@ -17,6 +17,7 @@ resource "aws_launch_template" "factorio_launch_template" {
   iam_instance_profile {
     arn = aws_iam_instance_profile.instance_profile.arn
   }
+  vpc_security_group_ids = [aws_security_group.instance_sg.id]
 }
 
 
@@ -88,6 +89,20 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
     }
   }
 }
+
+resource "aws_ecs_capacity_provider" "factorio_ecs_capacity_provider" {
+  name = "factorio-ecs-ec2"
+  auto_scaling_group_provider {
+    auto_scaling_group_arn = aws_autoscaling_group.factorio_ag.arn
+    managed_termination_protection = "Disabled"
+  }
+}
+
+resource "aws_ecs_cluster_capacity_providers" "factorio_cluster_cap_prov"{
+  cluster_name = aws_ecs_cluster.factorio_cluster.name
+  capacity_providers = [aws_ecs_capacity_provider.factorio_ecs_capacity_provider.name]
+}
+
 
 data "archive_file" "dns_lambda" {
   type        = "zip"
