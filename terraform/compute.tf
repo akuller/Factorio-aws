@@ -14,6 +14,9 @@ resource "aws_launch_template" "factorio_launch_template" {
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = var.aws_instance_type
   name_prefix   = "factorio-"
+  iam_instance_profile {
+    arn = aws_iam_instance_profile.instance_profile.arn
+  }
 }
 
 
@@ -38,7 +41,6 @@ resource "aws_ecs_service" "factorio_ecs_service" {
   name            = "factorio-ecs-service"
   cluster         = aws_ecs_cluster.factorio_cluster.arn
   desired_count   = 1
-  iam_role        = aws_iam_role.instance_role.arn
   task_definition = aws_ecs_task_definition.factorio_ecs_task_definition.arn
 }
 
