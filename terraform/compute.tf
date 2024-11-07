@@ -48,6 +48,8 @@ resource "aws_ecs_service" "factorio_ecs_service" {
   cluster         = aws_ecs_cluster.factorio_cluster.arn
   desired_count   = 1
   task_definition = aws_ecs_task_definition.factorio_ecs_task_definition.arn
+  deployment_minimum_healthy_percent = 0
+  deployment_maximum_percent = 100
 }
 
 
