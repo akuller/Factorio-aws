@@ -18,6 +18,11 @@ resource "aws_launch_template" "factorio_launch_template" {
     arn = aws_iam_instance_profile.instance_profile.arn
   }
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
+  user_data = base64encode(<<-EOF
+      #!/bin/bash
+      echo ECS_CLUSTER=${aws_ecs_cluster.factorio_cluster.name} >> /etc/ecs/ecs.config;
+    EOF
+  )
 }
 
 
@@ -95,12 +100,23 @@ resource "aws_ecs_capacity_provider" "factorio_ecs_capacity_provider" {
   auto_scaling_group_provider {
     auto_scaling_group_arn         = aws_autoscaling_group.factorio_ag.arn
     managed_termination_protection = "DISABLED"
+    managed_scaling {
+      maximum_scaling_step_size = 1
+      minimum_scaling_step_size = 1
+      status                    = "ENABLED"
+      target_capacity           = 100
+    }
   }
 }
 
 resource "aws_ecs_cluster_capacity_providers" "factorio_cluster_cap_prov" {
   cluster_name       = aws_ecs_cluster.factorio_cluster.name
   capacity_providers = [aws_ecs_capacity_provider.factorio_ecs_capacity_provider.name]
+  default_capacity_provider_strategy {
+    capacity_provider = aws_ecs_capacity_provider.factorio_ecs_capacity_provider.name
+    base              = 1
+    weight            = 100
+  }
 }
 
 
