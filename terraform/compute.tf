@@ -81,7 +81,7 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   volume {
     name = "factorio"
     efs_volume_configuration {
-      file_system_id     = aws_efs_file_system.factorio_efs.arn
+      file_system_id     = aws_efs_file_system.factorio_efs.id
       transit_encryption = "ENABLED"
     }
   }
