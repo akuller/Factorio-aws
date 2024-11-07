@@ -1,4 +1,6 @@
 resource "aws_efs_file_system" "factorio_efs" {
+  creation_token = "factorio_efs"
+
   lifecycle_policy {
     transition_to_ia = "AFTER_7_DAYS"
   }
