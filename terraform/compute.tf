@@ -98,19 +98,19 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
     image = "${var.factorio_docker_image}:${var.factorio_image_tag}",
     portMappings = [
       {
-        containerPort : 34197,
-        hostPort : 34197,
-        protocol : "udp"
+        containerPort = 34197,
+        hostPort = 34197,
+        protocol = "udp"
       },
       {
-        containerPort : 27015,
-        hostPort : 27015,
-        protocol : "tcp"
+        containerPort = 27015,
+        hostPort = 27015,
+        protocol = "tcp"
       }
     ],
     environment = [
-      { name = "Update MODS on Start", value = tostring(var.update_mods_on_start) },
-      { name = "DLC Space Age", value = tostring(var.dlc_space_age) }
+      { name = "Update MODS on Start", value = var.update_mods_on_start },
+      { name = "DLC Space Age", value = var.dlc_space_age }
     ],
     mountPoints = [
       {
