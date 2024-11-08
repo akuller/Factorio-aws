@@ -1,11 +1,11 @@
 data "aws_iam_policy_document" "instance_assume_role_policy" {
   statement {
+    actions = ["sts:AssumeRole"]
     effect = "Allow"
     principals {
-      identifiers = ["ec2.amazonaws.com"]
       type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
     }
-    actions = ["sts:AssumeRole"]
   }
 }
 
@@ -18,52 +18,49 @@ data "aws_iam_policy_document" "instance_s3_policy" {
 }
 
 resource "aws_iam_role" "instance_role" {
-  name               = "instance_role_factorio"
+  name_prefix = "ecs-factorio-node-role"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
-  managed_policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-  ]
   inline_policy {
-    name   = "s3-policy"
+    name = "route53_allow"
     policy = data.aws_iam_policy_document.instance_s3_policy.json
   }
-  force_detach_policies = true
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_factorio_role_policy" {
+  role       = aws_iam_role.instance_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
 resource "aws_iam_instance_profile" "instance_profile" {
-  name = "instance_profile_factorio"
+  name = "factorio-ecs-node-profile"
   role = aws_iam_role.instance_role.name
 }
 
-resource "aws_security_group" "instance_sg" {
-  name   = "factorio-instance-sg"
-  vpc_id = aws_vpc.factorio_vpc.id
-  /*
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = [var.myip]
+data "aws_iam_policy_document" "ecs_task_doc" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
   }
-   */
-  ingress {
-    from_port   = 34197
-    to_port     = 34197
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 27015
-    to_port     = 27015
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+}
+
+resource "aws_iam_role" "ecs_task_role" {
+  name_prefix        = "factorio-ecs-task-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_doc.json
+}
+
+resource "aws_iam_role" "ecs_exec_role" {
+  name_prefix        = "demo-ecs-exec-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_doc.json
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_exec_role_policy" {
+  role       = aws_iam_role.ecs_exec_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 data "aws_iam_policy_document" "DNS_lambda_policy_assume_role" {
@@ -101,15 +98,3 @@ resource "aws_iam_role" "DNS_lambda_role" {
   }
 }
 
-resource "aws_security_group" "factorio-efs-sg" {
-  depends_on  = [aws_security_group.instance_sg]
-  name        = "factorio-efs-sg"
-  description = "factorio efs security group"
-  ingress {
-    from_port = 2049
-    to_port   = 2049
-    protocol  = "tcp"
-    #security_groups = [aws_security_group.instance_sg.arn]
-  }
-  vpc_id = aws_vpc.factorio_vpc.id
-}
