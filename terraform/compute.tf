@@ -30,11 +30,11 @@ resource "aws_launch_template" "factorio_launch_template" {
 }
 
 resource "aws_autoscaling_group" "factorio_ag" {
-  name             = "factorio_group"
-  vpc_zone_identifier = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id]
-  max_size         = var.aws_autoscaling_max
-  min_size         = var.aws_autoscaling_min
-  desired_capacity = var.aws_autoscaling_desired_capacity
+  name                      = "factorio_group"
+  vpc_zone_identifier       = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id]
+  max_size                  = var.aws_autoscaling_max
+  min_size                  = var.aws_autoscaling_min
+  desired_capacity          = var.aws_autoscaling_desired_capacity
   health_check_grace_period = 0
   health_check_type         = "EC2"
   protect_from_scale_in     = false
@@ -91,35 +91,35 @@ resource "aws_ecs_cluster_capacity_providers" "factorio_cluster_cap_prov" {
 }
 
 resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
-  family                = "Factorio-ECS-Task"
+  family = "Factorio-ECS-Task"
 
   container_definitions = jsonencode([{
-    name = "factorio",
+    name  = "factorio",
     image = "${var.factorio_docker_image}:${var.factorio_image_tag}",
-     portMappings = [
-       {
-         containerPort: 34197,
-          hostPort: 34197,
-          protocol: "udp"
-       },
-       {
-         containerPort: 27015,
-          hostPort: 27015,
-          protocol: "tcp"
-       }
-     ],
-      environment =  [
-        { name = "Update MODS on Start", value = var.update_mods_on_start },
-        { name = "DLC Space Age", value = var.dlc_space_age }
-      ],
-      mountPoints = [
-        {
-          ContainerPath = "/factorio",
-          ReadOnly = false,
-          SourceVolume = "factorio"
-        }
-      ]
-   }])
+    portMappings = [
+      {
+        containerPort : 34197,
+        hostPort : 34197,
+        protocol : "udp"
+      },
+      {
+        containerPort : 27015,
+        hostPort : 27015,
+        protocol : "tcp"
+      }
+    ],
+    environment = [
+      { name = "Update MODS on Start", value = "${var.update_mods_on_start}" },
+      { name = "DLC Space Age", value = "${var.dlc_space_age}" }
+    ],
+    mountPoints = [
+      {
+        ContainerPath = "/factorio",
+        ReadOnly      = false,
+        SourceVolume  = "factorio"
+      }
+    ]
+  }])
 
   volume {
     name = "factorio"
@@ -131,20 +131,20 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
 }
 
 resource "aws_ecs_service" "factorio_ecs_service" {
-  name                               = "factorio-ecs-service"
-  cluster                            = aws_ecs_cluster.factorio_cluster.id
-  desired_count                      = 1
-  task_definition                    = aws_ecs_task_definition.factorio_ecs_task_definition.arn
+  name            = "factorio-ecs-service"
+  cluster         = aws_ecs_cluster.factorio_cluster.id
+  desired_count   = 1
+  task_definition = aws_ecs_task_definition.factorio_ecs_task_definition.arn
 
   network_configuration {
-    subnets = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id]
+    subnets         = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id]
     security_groups = [aws_security_group.factorio-efs-sg.id, aws_security_group.instance_sg.id]
   }
 
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.factorio_ecs_capacity_provider.name
-    base = 1
-    weight = 100
+    base              = 1
+    weight            = 100
   }
 }
 

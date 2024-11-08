@@ -6,8 +6,8 @@ resource "aws_vpc" "factorio_vpc" {
 }
 
 resource "aws_subnet" "factorio_a" {
-  vpc_id     = aws_vpc.factorio_vpc.id
-  cidr_block = "10.0.1.0/24"
+  vpc_id                  = aws_vpc.factorio_vpc.id
+  cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
   tags = {
     Name = "factorio_a"
@@ -15,8 +15,8 @@ resource "aws_subnet" "factorio_a" {
 }
 
 resource "aws_subnet" "factorio_b" {
-  vpc_id     = aws_vpc.factorio_vpc.id
-  cidr_block = "10.0.2.0/24"
+  vpc_id                  = aws_vpc.factorio_vpc.id
+  cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = true
 
   tags = {
@@ -33,7 +33,7 @@ resource "aws_internet_gateway" "factorio_igw" {
 
 resource "aws_route_table" "factorio_route_table" {
   vpc_id = aws_vpc.factorio_vpc.id
-  tags = {Name = "factorio-rt-public"}
+  tags   = { Name = "factorio-rt-public" }
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -43,12 +43,12 @@ resource "aws_route_table" "factorio_route_table" {
 
 resource "aws_route_table_association" "factorio_a" {
   route_table_id = aws_route_table.factorio_route_table.id
-  subnet_id = aws_subnet.factorio_a.id
+  subnet_id      = aws_subnet.factorio_a.id
 }
 
 resource "aws_route_table_association" "factorio_b" {
   route_table_id = aws_route_table.factorio_route_table.id
-  subnet_id = aws_subnet.factorio_b.id
+  subnet_id      = aws_subnet.factorio_b.id
 }
 
 
@@ -78,13 +78,13 @@ resource "aws_security_group" "instance_sg" {
 resource "aws_security_group" "factorio-efs-sg" {
   name        = "factorio-efs-sg"
   description = "factorio efs security group"
-  vpc_id = aws_vpc.factorio_vpc.id
+  vpc_id      = aws_vpc.factorio_vpc.id
   ingress {
     from_port = 2049
     to_port   = 2049
     protocol  = "tcp"
   }
-    ingress {
+  ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

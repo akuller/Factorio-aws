@@ -1,7 +1,7 @@
 data "aws_iam_policy_document" "instance_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
-    effect = "Allow"
+    effect  = "Allow"
     principals {
       type        = "Service"
       identifiers = ["ec2.amazonaws.com"]
@@ -18,10 +18,10 @@ data "aws_iam_policy_document" "instance_s3_policy" {
 }
 
 resource "aws_iam_role" "instance_role" {
-  name_prefix = "ecs-factorio-node-role"
+  name_prefix        = "ecs-factorio-node-role"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
   inline_policy {
-    name = "route53_allow"
+    name   = "route53_allow"
     policy = data.aws_iam_policy_document.instance_s3_policy.json
   }
 }
