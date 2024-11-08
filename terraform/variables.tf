@@ -27,7 +27,7 @@ variable "factorio_uri" {
 variable "aws_instance_type" {
   type        = string
   description = "Instance type"
-  default     = "t3.micro"
+  default     = "t3.medium"
 }
 
 variable "aws_autoscaling_min" {
