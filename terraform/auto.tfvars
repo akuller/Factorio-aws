@@ -6,4 +6,4 @@ aws_autoscaling_min              = 0
 aws_autoscaling_max              = 1
 aws_autoscaling_desired_capacity = 1
 hosted_zone_id                   = "Z6FZ21BWYDAAS"
-aws_instance_type                = "t3a.medium"
+aws_instance_type                = "t3.medium"

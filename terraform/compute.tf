@@ -16,7 +16,7 @@ data "aws_ssm_parameter" "ecs_node_ami" {
 
 resource "aws_launch_template" "factorio_launch_template" {
   image_id      = data.aws_ssm_parameter.ecs_node_ami.value
-  instance_type = var.aws_instance_type
+  instance_type = var.aws_instance_type.value
   name_prefix   = "factorio-"
   iam_instance_profile {
     arn = aws_iam_instance_profile.instance_profile.arn
