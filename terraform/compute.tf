@@ -130,6 +130,8 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
       transit_encryption = "ENABLED"
     }
   }
+  task_role_arn      = aws_iam_role.ecs_task_role.arn
+  execution_role_arn = aws_iam_role.ecs_exec_role.arn
 }
 
 resource "aws_ecs_service" "factorio_ecs_service" {
