@@ -99,13 +99,13 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
     portMappings = [
       {
         containerPort = 34197,
-        hostPort = 34197,
-        protocol = "udp"
+        hostPort      = 34197,
+        protocol      = "udp"
       },
       {
         containerPort = 27015,
-        hostPort = 27015,
-        protocol = "tcp"
+        hostPort      = 27015,
+        protocol      = "tcp"
       }
     ],
     environment = [
