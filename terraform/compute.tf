@@ -16,7 +16,7 @@ data "aws_ssm_parameter" "ecs_node_ami" {
 
 resource "aws_launch_template" "factorio_launch_template" {
   image_id      = data.aws_ssm_parameter.ecs_node_ami.value
-  instance_type = var.aws_instance_type.value
+  instance_type = var.aws_instance_type
   name_prefix   = "factorio-"
   iam_instance_profile {
     arn = aws_iam_instance_profile.instance_profile.arn
@@ -94,8 +94,8 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   family = "Factorio-ECS-Task"
 
   container_definitions = jsonencode([{
-    name  = "factorio",
-    image = "${var.factorio_docker_image}:${var.factorio_image_tag}",
+    name   = "factorio",
+    image  = "${var.factorio_docker_image}:${var.factorio_image_tag}",
     memory = 1024
     portMappings = [
       {
