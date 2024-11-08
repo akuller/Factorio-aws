@@ -39,6 +39,11 @@ variable "aws_autoscaling_max" {
   default = 1
 }
 
+variable "aws_autoscaling_desired_capacity" {
+  type    = number
+  default = 1
+}
+
 variable "myip" {
   type        = string
   description = "users ip address"

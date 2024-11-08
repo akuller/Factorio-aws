@@ -27,9 +27,10 @@ resource "aws_launch_template" "factorio_launch_template" {
 
 
 resource "aws_autoscaling_group" "factorio_ag" {
-  name     = "factorio_group"
-  max_size = var.aws_autoscaling_max
-  min_size = var.aws_autoscaling_min
+  name             = "factorio_group"
+  max_size         = var.aws_autoscaling_max
+  min_size         = var.aws_autoscaling_min
+  desired_capacity = var.aws_autoscaling_desired_capacity
   launch_template {
     id      = aws_launch_template.factorio_launch_template.id
     version = "$Latest"
@@ -44,12 +45,12 @@ resource "aws_ecs_cluster" "factorio_cluster" {
 }
 
 resource "aws_ecs_service" "factorio_ecs_service" {
-  name            = "factorio-ecs-service"
-  cluster         = aws_ecs_cluster.factorio_cluster.arn
-  desired_count   = 1
-  task_definition = aws_ecs_task_definition.factorio_ecs_task_definition.arn
+  name                               = "factorio-ecs-service"
+  cluster                            = aws_ecs_cluster.factorio_cluster.arn
+  desired_count                      = 1
+  task_definition                    = aws_ecs_task_definition.factorio_ecs_task_definition.arn
   deployment_minimum_healthy_percent = 0
-  deployment_maximum_percent = 100
+  deployment_maximum_percent         = 100
 }
 
 
