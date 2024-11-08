@@ -137,10 +137,11 @@ resource "aws_ecs_service" "factorio_ecs_service" {
   desired_count   = 1
   task_definition = aws_ecs_task_definition.factorio_ecs_task_definition.arn
 
-  network_configuration {
-    subnets         = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id]
-    security_groups = [aws_security_group.factorio-efs-sg.id, aws_security_group.instance_sg.id]
-  }
+
+  # network_configuration {
+  #   subnets         = [aws_subnet.factorio_a.id, aws_subnet.factorio_b.id]
+  #   security_groups = [aws_security_group.factorio-efs-sg.id, aws_security_group.instance_sg.id]
+  # }
 
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.factorio_ecs_capacity_provider.name
