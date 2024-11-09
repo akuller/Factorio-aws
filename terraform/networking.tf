@@ -70,6 +70,12 @@ resource "aws_security_group" "instance_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.factorio_vpc.cidr_block]
+  }
   egress {
     from_port   = 0
     to_port     = 0
