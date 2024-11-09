@@ -48,14 +48,34 @@ data "aws_iam_policy_document" "ecs_task_doc" {
   }
 }
 
+data "aws_iam_policy_document" "ecs_efs_policy" {
+  statement {
+    effect    = "Allow"
+    actions = [
+          "elasticfilesystem:ClientMount",
+          "elasticfilesystem:ClientWrite",
+          "elasticfilesystem:ClientRootAccess",
+    ]
+    resources = ["*"]
+  }
+}
+
 resource "aws_iam_role" "ecs_task_role" {
   name_prefix        = "factorio-ecs-task-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_doc.json
+  inline_policy {
+    name   = "route53_allow"
+    policy = data.aws_iam_policy_document.ecs_efs_policy.json
+  }
 }
 
 resource "aws_iam_role" "ecs_exec_role" {
   name_prefix        = "demo-ecs-exec-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_doc.json
+  inline_policy {
+    name   = "route53_allow"
+    policy = data.aws_iam_policy_document.ecs_efs_policy.json
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_exec_role_policy" {
