@@ -97,7 +97,6 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
     name   = "factorio",
     image  = "${var.factorio_docker_image}:${var.factorio_image_tag}",
     memory = 1024
-    cpu    = 512
     portMappings = [
       {
         containerPort = 34197,
