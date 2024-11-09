@@ -11,7 +11,7 @@ resource "aws_subnet" "factorio_a" {
   vpc_id                  = aws_vpc.factorio_vpc.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone = data.aws_availability_zones.available.names[1]
+  availability_zone       = data.aws_availability_zones.available.names[1]
   tags = {
     Name = "factorio_a"
   }
@@ -21,7 +21,7 @@ resource "aws_subnet" "factorio_b" {
   vpc_id                  = aws_vpc.factorio_vpc.id
   cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = true
-  availability_zone = data.aws_availability_zones.available.names[2]
+  availability_zone       = data.aws_availability_zones.available.names[2]
   tags = {
     Name = "factorio_b"
   }
@@ -70,12 +70,6 @@ resource "aws_security_group" "instance_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
-    from_port   = 2049
-    to_port     = 2049
-    protocol    = "tcp"
-    cidr_blocks = [aws_vpc.factorio_vpc.cidr_block]
-  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -93,13 +87,6 @@ resource "aws_security_group" "factorio-efs-sg" {
     to_port   = 2049
     protocol  = "tcp"
   }
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [aws_vpc.factorio_vpc.cidr_block]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
