@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "ecs_efs_policy" {
 # }
 
 resource "aws_iam_role" "ecs_exec_role" {
-  name_prefix        = "demo-ecs-exec-role"
+  name_prefix        = "factorio_exec_ecs_role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_doc.json
   inline_policy {
     name   = "route53_allow"
