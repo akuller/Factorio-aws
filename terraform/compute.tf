@@ -96,7 +96,7 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
   container_definitions = jsonencode([{
     name   = "factorio",
     image  = "${var.factorio_docker_image}:${var.factorio_image_tag}",
-    memory = 1024
+    memoryReservation = 1024
     portMappings = [
       {
         containerPort = 34197,
