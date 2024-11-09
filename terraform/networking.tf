@@ -83,9 +83,9 @@ resource "aws_security_group" "factorio-efs-sg" {
   description = "factorio efs security group"
   vpc_id      = aws_vpc.factorio_vpc.id
   ingress {
-    from_port = 2049
-    to_port   = 2049
-    protocol  = "tcp"
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
     security_groups = [aws_security_group.instance_sg.id]
     #cidr_blocks = [aws_vpc.factorio_vpc.cidr_block]
   }

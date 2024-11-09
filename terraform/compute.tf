@@ -129,9 +129,9 @@ resource "aws_ecs_task_definition" "factorio_ecs_task_definition" {
       transit_encryption = "ENABLED"
     }
   }
-  execution_role_arn = "arn:aws:iam::525625957308:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
+
   # task_role_arn      = aws_iam_role.ecs_task_role.arn
-  # execution_role_arn = aws_iam_role.ecs_exec_role.arn
+  execution_role_arn = aws_iam_role.ecs_exec_role.arn
 }
 
 resource "aws_ecs_service" "factorio_ecs_service" {
