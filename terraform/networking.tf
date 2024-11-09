@@ -86,7 +86,7 @@ resource "aws_security_group" "factorio-efs-sg" {
     from_port = 2049
     to_port   = 2049
     protocol  = "tcp"
-    cidr_blocks = [aws_vpc.factorio_vpc.id]
+    cidr_blocks = [aws_vpc.factorio_vpc.cidr_block]
   }
   egress {
     from_port   = 0
